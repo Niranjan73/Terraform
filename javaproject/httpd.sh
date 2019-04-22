@@ -1,0 +1,8 @@
+#! /bin/bash
+yum install httpd -y
+#service httpd start
+#chkconfig httpd on
+systemctl start httpd.service
+systemctl enable httpd.service
+echo "<h1>My Name Is Niranjan Kumar Reddy</h1>" > /var/www/html/index.html
+

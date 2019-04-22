@@ -1,0 +1,65 @@
+provider "aws" {
+    region = "us-east-1"
+    access_key = "AKIAZRCHFY6Q24FSUH4G"
+    secret_key = "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"
+}
+
+resource "aws_instance" "myfirstec2" {
+    ami = "ami-011b3ccf1bd6db744"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = ["${aws_security_group.SG.id}"]
+    key_name ="Newdxc"
+    user_data = <<-EOF
+                #!/bin/bash
+                yum install httpd -y
+	        echo " My name is Niranjan Kumar Reddy" > /var/www/html/index.html
+	        yum update -y
+                chmod +777 /var/www/html/index.html
+  	        systemctl start httpd.service
+	        systemctl enable httpd.service
+  	        EOF
+    tags {
+       Name = "niranjan"
+         }
+
+}
+
+resource "aws_security_group" "SG" {
+  name = "terraformSG"
+  
+  ingress {
+     from_port = 22
+     to_port   = 22
+     protocol  = "tcp"
+     cidr_blocks = ["0.0.0.0/0"]
+          }
+
+  ingress {
+     from_port = 80
+     to_port   = 80
+     protocol  = "tcp"
+     cidr_blocks = ["0.0.0.0/0"]
+          }
+ # egress {
+  #   from_port = 0
+   #  to_port   = 0
+    # protoc0l  = "-1"
+    # cidr_blocks = ["0.0.0.0/0"]
+     #     }
+   egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+           }
+}
+
+
+output "public_dns" {
+ value = "${aws_instance.myfirstec2.public_dns}"}
+output "public_ip" {
+ value = "${aws_instance.myfirstec2.public_ip}"}
+
+output "security_groups" {
+ value = "${aws_instance.myfirstec2.security_groups}"}
+
