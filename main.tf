@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "${var.aws_region}"
-  access_key = "AKIAZRCHFY24FSUH4G"
-  secret_key = "MDOQohwZ5NIFnntpRIfZL1aFetIWHemC9zWjw"
+  access_key = "AK4G"
+  secret_key = "MDjw"
 }
 
 resource "aws_key_pair" "tf_demo" {
